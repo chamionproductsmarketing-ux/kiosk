@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import SoloraLogo from "@/components/SoloraLogo";
 import NavBar from "@/components/NavBar";
 
@@ -67,45 +68,81 @@ const cards = [
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.4, ease: "easeOut" as const },
+  },
+};
+
 export default function Home() {
   return (
     <div className="flex h-full flex-col">
       {/* Hero */}
-      <div className="texture-overlay relative flex flex-col items-center justify-center bg-primary px-8 pt-12 pb-10">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="texture-overlay relative flex flex-col items-center justify-center bg-primary px-8 pt-12 pb-10"
+      >
         <SoloraLogo />
-        <p className="font-body mt-4 text-lg tracking-wide text-white/70">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="font-body mt-4 text-lg tracking-wide text-white/70"
+        >
           Fresh Produce Packaging Solutions
-        </p>
-        <h2 className="font-display mt-3 text-center text-3xl font-semibold text-white">
+        </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="font-display mt-3 text-center text-3xl font-semibold text-white"
+        >
           From Greenhouse to Grocery with Confidence
-        </h2>
-      </div>
+        </motion.h2>
+      </motion.div>
 
       {/* Navigation Cards */}
       <div className="flex flex-1 items-center justify-center bg-cream px-8 pb-24">
-        <div className="grid w-full max-w-6xl grid-cols-5 gap-5">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid w-full max-w-6xl grid-cols-5 gap-5"
+        >
           {cards.map((card) => (
-            <Link
-              key={card.href}
-              href={card.href}
-              className="group flex flex-col items-center justify-center gap-4 rounded-2xl bg-white p-8 shadow-md transition-transform active:scale-[0.97]"
-            >
-              <div
-                className={`flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br ${card.gradient} text-white`}
+            <motion.div key={card.href} variants={cardVariants}>
+              <Link
+                href={card.href}
+                className="group flex flex-col items-center justify-center gap-4 rounded-2xl bg-white p-8 shadow-md transition-transform active:scale-[0.97]"
               >
-                {card.icon}
-              </div>
-              <div className="text-center">
-                <h3 className="font-display text-xl font-semibold text-dark">
-                  {card.title}
-                </h3>
-                <p className="font-body mt-1 text-sm text-muted">
-                  {card.subtitle}
-                </p>
-              </div>
-            </Link>
+                <div
+                  className={`flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br ${card.gradient} text-white`}
+                >
+                  {card.icon}
+                </div>
+                <div className="text-center">
+                  <h3 className="font-display text-xl font-semibold text-dark">
+                    {card.title}
+                  </h3>
+                  <p className="font-body mt-1 text-sm text-muted">
+                    {card.subtitle}
+                  </p>
+                </div>
+              </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       <NavBar />

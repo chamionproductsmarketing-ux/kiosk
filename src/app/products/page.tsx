@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { productLines } from "@/lib/constants";
 import ProductCard from "@/components/ProductCard";
 import NavBar from "@/components/NavBar";
@@ -38,21 +39,37 @@ export default function ProductsPage() {
 
       {/* Grid */}
       <div className="flex flex-1 items-center justify-center px-8 pb-24">
-        <div className="grid w-full max-w-5xl grid-cols-4 gap-4">
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.05 } } }}
+          className="grid w-full max-w-5xl grid-cols-4 gap-4"
+        >
           {productLines.map((product) => (
-            <ProductCard
+            <motion.div
               key={product.id}
-              name={product.name}
-              icon={productIcons[product.id]}
-              onTap={() => setSelected(product.id)}
-            />
+              variants={{
+                hidden: { opacity: 0, y: 20, scale: 0.96 },
+                show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.3 } },
+              }}
+            >
+              <ProductCard
+                name={product.name}
+                icon={productIcons[product.id]}
+                onTap={() => setSelected(product.id)}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Detail Overlay */}
+      <AnimatePresence>
       {selectedProduct && (
-        <div
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm"
           onClick={() => setSelected(null)}
         >
@@ -76,8 +93,9 @@ export default function ProductsPage() {
               Close
             </button>
           </div>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       <NavBar />
     </div>

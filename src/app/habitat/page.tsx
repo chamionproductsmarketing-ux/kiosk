@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { habitatFeatures } from "@/lib/constants";
 import HabitatFeature from "@/components/HabitatFeature";
 import NavBar from "@/components/NavBar";
@@ -18,15 +19,25 @@ export default function HabitatPage() {
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
 
   return (
-    <div className="flex h-full flex-col bg-primary">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
+      className="flex h-full flex-col bg-primary"
+    >
       {/* Hero Header */}
       <div className="texture-overlay px-8 pt-8 pb-4 text-center">
         <p className="font-body text-sm font-semibold uppercase tracking-widest text-accent">
           Flagship Innovation
         </p>
-        <h1 className="font-display mt-2 text-5xl font-bold text-white">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="font-display mt-2 text-5xl font-bold text-white"
+        >
           Habitat™ Trays
-        </h1>
+        </motion.h1>
         <p className="font-body mt-3 text-lg text-white/70">
           Protect quality. Extend shelf life. Showcase beauty.
         </p>
@@ -138,6 +149,6 @@ export default function HabitatPage() {
       </div>
 
       <NavBar />
-    </div>
+    </motion.div>
   );
 }
