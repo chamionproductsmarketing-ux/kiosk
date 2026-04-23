@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, DM_Sans } from "next/font/google";
+import InactivityProvider from "@/components/InactivityProvider";
 import "./globals.css";
 
 const playfairDisplay = Playfair_Display({
@@ -32,7 +33,9 @@ export default function RootLayout({
       lang="en"
       className={`${playfairDisplay.variable} ${dmSans.variable} h-full antialiased`}
     >
-      <body className="h-full overflow-hidden">{children}</body>
+      <body className="h-full overflow-hidden">
+        <InactivityProvider>{children}</InactivityProvider>
+      </body>
     </html>
   );
 }
