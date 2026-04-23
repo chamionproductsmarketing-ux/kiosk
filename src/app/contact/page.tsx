@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import NavBar from "@/components/NavBar";
 
 interface FormData {
@@ -59,46 +60,71 @@ export default function ContactPage() {
 
   if (submitted) {
     return (
-      <div className="flex h-full flex-col">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="flex h-full flex-col"
+      >
         <div
-          className="flex flex-1 flex-col items-center justify-center bg-primary px-8"
+          className="texture-overlay flex flex-1 flex-col items-center justify-center bg-primary px-8"
           onClick={() => setSubmitted(false)}
         >
-          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-accent">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.4 }}
+            className="flex h-28 w-28 items-center justify-center rounded-full bg-accent shadow-lg shadow-accent/30"
+          >
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="20 6 9 17 4 12" />
             </svg>
-          </div>
+          </motion.div>
           <h1 className="font-display mt-8 text-5xl font-bold text-white">
             Thank You!
           </h1>
           <p className="font-body mt-4 text-xl text-white/70">
             We&apos;ll be in touch soon.
           </p>
-          <p className="font-body mt-8 text-sm text-white/40">
+          <p className="font-body mt-8 text-base text-white/40">
             Tap anywhere to continue
           </p>
         </div>
         <NavBar />
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <div className="flex h-full flex-col bg-cream">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
+      className="flex h-full flex-col bg-cream"
+    >
       {/* Header */}
-      <div className="texture-overlay bg-primary px-8 py-8 text-center">
-        <h1 className="font-display text-4xl font-bold text-white">
+      <div className="texture-overlay relative overflow-hidden bg-gradient-to-br from-[#0f3d1e] via-primary to-secondary px-8 py-8 text-center">
+        <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent/10" />
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="font-display relative z-10 text-4xl font-bold text-white"
+        >
           Get in Touch
-        </h1>
-        <p className="font-body mt-2 text-lg text-white/70">
+        </motion.h1>
+        <p className="font-body relative z-10 mt-2 text-lg text-white/60">
           Let&apos;s discuss your packaging needs
         </p>
       </div>
 
-      {/* Form */}
-      <div className="flex flex-1 items-center justify-center px-8 pb-24">
-        <div className="w-full max-w-2xl space-y-5">
+      {/* Form — fills available space */}
+      <div className="flex flex-1 items-start justify-center px-8 pt-8 pb-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
+          className="w-full max-w-2xl space-y-5"
+        >
           <div className="grid grid-cols-2 gap-5">
             <Field
               label="Name"
@@ -134,7 +160,7 @@ export default function ContactPage() {
           </div>
 
           <div>
-            <label className="font-body mb-2 block text-sm font-semibold text-dark">
+            <label className="font-body mb-2 block text-base font-semibold text-dark">
               What are you looking for?
             </label>
             <textarea
@@ -147,15 +173,15 @@ export default function ContactPage() {
 
           <button
             onClick={handleSubmit}
-            className="h-16 w-full rounded-xl bg-accent font-body text-xl font-bold text-white shadow-lg active:bg-[#d4621f]"
+            className="h-16 w-full rounded-xl bg-accent font-body text-xl font-bold text-white shadow-lg shadow-accent/20 active:bg-[#d4621f]"
           >
             Submit
           </button>
-        </div>
+        </motion.div>
       </div>
 
       <NavBar />
-    </div>
+    </motion.div>
   );
 }
 
@@ -174,7 +200,7 @@ function Field({
 }) {
   return (
     <div>
-      <label className="font-body mb-2 block text-sm font-semibold text-dark">
+      <label className="font-body mb-2 block text-base font-semibold text-dark">
         {label}
       </label>
       <input
