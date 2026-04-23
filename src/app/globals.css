@@ -1,26 +1,97 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand Colors */
+  --color-primary-green: #1a5b2e;
+  --color-secondary-green: #237a3b;
+  --color-accent-orange: #e8712b;
+  --color-light-orange: #f5a623;
+  --color-white: #ffffff;
+  --color-cream: #f8f6f0;
+  --color-dark-text: #1a1a1a;
+  --color-subtle-gray: #6b7280;
+
+  --background: var(--color-cream);
+  --foreground: var(--color-dark-text);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* Brand palette */
+  --color-primary: #1a5b2e;
+  --color-secondary: #237a3b;
+  --color-accent: #e8712b;
+  --color-light-accent: #f5a623;
+  --color-cream: #f8f6f0;
+  --color-dark: #1a1a1a;
+  --color-muted: #6b7280;
+
+  /* Font families */
+  --font-display: var(--font-playfair-display);
+  --font-body: var(--font-dm-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ── Base styles ────────────────────────────────────── */
 
+html,
 body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), sans-serif;
+}
+
+/* ── Touch / Kiosk hardening ────────────────────────── */
+
+* {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Allow text selection inside form inputs */
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+html {
+  touch-action: manipulation; /* disable double-tap zoom */
+}
+
+/* ── Typography helpers ─────────────────────────────── */
+
+.font-display {
+  font-family: var(--font-display), serif;
+}
+
+.font-body {
+  font-family: var(--font-body), sans-serif;
+}
+
+/* ── Subtle texture overlay ─────────────────────────── */
+
+.texture-overlay {
+  position: relative;
+}
+
+.texture-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ── Kiosk mode (optional: hide cursor) ─────────────── */
+
+.kiosk-mode {
+  cursor: none;
 }
